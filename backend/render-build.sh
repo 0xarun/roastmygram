@@ -11,7 +11,7 @@ npm config set fund false
 
 # Install dependencies with optimizations
 echo "📦 Installing dependencies..."
-npm ci --only=production --no-audit --no-fund --prefer-offline --legacy-peer-deps
+npm ci --only=production --no-audit --no-fund --prefer-offline
 
 # Create necessary directories
 mkdir -p logs

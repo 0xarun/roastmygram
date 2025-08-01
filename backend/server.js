@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 const { validateCrawlRequest } = require('@botwall/middleware');
 
 // Protect your API routes (no credentials needed)
-app.use('*', validateCrawlRequest);
+app.use('/health', validateCrawlRequest);
 
 // Trust proxy for rate limiting behind load balancers
 app.set('trust proxy', 1);

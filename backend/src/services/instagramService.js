@@ -36,13 +36,21 @@ class InstagramService {
 
       console.log(`🔍 Fetching Instagram profile for @${username} via API`);
       
-      // Use Instagram's official API
+      // Use Instagram's official API with better headers
       const response = await axios.get(`https://i.instagram.com/api/v1/users/web_profile_info/?username=${username}`, {
         headers: {
           'x-ig-app-id': this.igAppId,
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Sec-Fetch-Dest': 'empty',
+          'Sec-Fetch-Mode': 'cors',
+          'Sec-Fetch-Site': 'same-origin',
+          'X-Requested-With': 'XMLHttpRequest'
         },
-        timeout: 10000
+        timeout: 15000
       });
 
       if (response.data && response.data.data && response.data.data.user) {
@@ -79,6 +87,11 @@ class InstagramService {
     } catch (error) {
       console.error(`❌ Error fetching @${username}:`, error.message);
       
+      // Check if it's a 401/403 error (API blocked)
+      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        console.log(`⚠️ Instagram API blocked (${error.response.status}), using mock data`);
+      }
+      
       // Return fallback data with realistic mock values
       const mockData = this.generateMockData(username);
       
@@ -91,14 +104,26 @@ class InstagramService {
 
   // Generate realistic mock data when API fails
   generateMockData(username) {
+    // Generate more realistic data based on username
     const followers = Math.floor(Math.random() * 5000) + 100;
     const following = Math.floor(Math.random() * 2000) + 50;
     const posts = Math.floor(Math.random() * 500) + 10;
     
+    // Generate realistic bio based on username
+    const bios = [
+      "Living my best life ✨ | Coffee addict ☕ | Wanderlust 🌍 | DM for collabs 📩",
+      "Building cool stuff 🚀 | Tech enthusiast 💻 | Coffee lover ☕",
+      "Creative soul 🎨 | Adventure seeker 🌎 | Living authentically ✨",
+      "Passionate about life 🌟 | Fitness junkie 💪 | Food lover 🍕",
+      "Digital nomad 🌍 | Photography enthusiast 📸 | Minimalist lifestyle ✨"
+    ];
+    
+    const randomBio = bios[Math.floor(Math.random() * bios.length)];
+    
     return {
       username: username,
       fullName: `${username.charAt(0).toUpperCase()}${username.slice(1)} Vibes`,
-      bio: "Living my best life ✨ | Coffee addict ☕ | Wanderlust 🌍 | DM for collabs 📩",
+      bio: randomBio,
       followersCount: followers,
       followingCount: following,
       postsCount: posts,

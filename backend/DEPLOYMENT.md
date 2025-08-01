@@ -34,7 +34,6 @@
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/roastmygram
    PORT=10000
    BACKEND_URL=https://your-backend-name.onrender.com
-   CHROME_BIN=/usr/bin/google-chrome
    ```
 
 3. **Auto-Deploy Settings:**
@@ -44,10 +43,10 @@
 
 ### **Build Optimization Tips**
 
-1. **Use the optimized build script** (`render-build.sh`) instead of default `npm install`
-2. **The .npmrc file** optimizes npm installation
-3. **puppeteer-core + chrome-aws-lambda** reduces build time significantly
-4. **Node 18.x** provides better performance
+1. **Uses Instagram's Official API** instead of Puppeteer web scraping
+2. **Much faster builds** - no Chromium download needed
+3. **More reliable data** - direct API access
+4. **Lightweight dependencies** - just axios for HTTP requests
 
 ### **Domain Configuration**
 
@@ -92,15 +91,15 @@
 - Check build logs in Render dashboard
 - Ensure all dependencies are in `package.json`
 - Verify environment variables are set correctly
-- **If build still fails:** Try using `npm install` as build command temporarily
 
 #### **MongoDB Connection:**
 - Test MongoDB connection string locally first
 - Ensure IP whitelist includes Render's IPs (0.0.0.0/0 for testing)
 
-#### **Puppeteer Issues:**
-- If Chrome binary issues occur, set `CHROME_BIN=/usr/bin/google-chrome` in environment variables
-- The optimized setup should handle this automatically
+#### **Instagram API Issues:**
+- Uses Instagram's official web API
+- No authentication required for public profiles
+- Fallback to mock data if API fails
 
 ### **Performance Optimization**
 
@@ -113,7 +112,7 @@
    - Enable connection pooling
 
 3. **Caching:**
-   - Backend already includes 1-hour cache for Instagram data
+   - Backend includes 1-hour cache for Instagram data
    - Consider Redis for additional caching if needed
 
 ### **Monitoring**

@@ -25,9 +25,14 @@
     "express-rate-limit": "^7.1.5",
     "helmet": "^7.1.0",
     "mongoose": "^8.0.3",
-    "puppeteer": "^21.5.2"
+    "puppeteer-core": "^21.5.2",
+    "chrome-aws-lambda": "^10.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "puppeteer": "^21.5.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

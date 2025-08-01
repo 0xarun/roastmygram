@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+// Use puppeteer-core for production, regular puppeteer for development
+const puppeteer = process.env.NODE_ENV === 'production' 
+  ? require('puppeteer-core') 
+  : require('puppeteer');
 
 class InstagramService {
   constructor() {
@@ -9,21 +12,50 @@ class InstagramService {
 
   async initBrowser() {
     if (!this.browser) {
-      this.browser = await puppeteer.launch({
-        headless: true,
-        executablePath: process.env.CHROME_BIN || undefined,
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-accelerated-2d-canvas',
-          '--no-first-run',
-          '--no-zygote',
-          '--disable-gpu',
-          '--disable-web-security',
-          '--disable-features=VizDisplayCompositor'
-        ]
-      });
+      try {
+        if (process.env.NODE_ENV === 'production') {
+          // Production (Render.com) - use chrome-aws-lambda
+          const chromium = require('chrome-aws-lambda');
+          const executablePath = await chromium.executablePath;
+          
+          this.browser = await puppeteer.launch({
+            headless: true,
+            executablePath: executablePath,
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--disable-accelerated-2d-canvas',
+              '--no-first-run',
+              '--no-zygote',
+              '--disable-gpu',
+              '--disable-web-security',
+              '--disable-features=VizDisplayCompositor',
+              '--single-process',
+              '--disable-extensions'
+            ]
+          });
+        } else {
+          // Development - use regular puppeteer (includes Chromium)
+          this.browser = await puppeteer.launch({
+            headless: true,
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--disable-accelerated-2d-canvas',
+              '--no-first-run',
+              '--no-zygote',
+              '--disable-gpu',
+              '--disable-web-security',
+              '--disable-features=VizDisplayCompositor'
+            ]
+          });
+        }
+      } catch (error) {
+        console.error('❌ Failed to launch browser:', error.message);
+        return null;
+      }
     }
     return this.browser;
   }
@@ -65,6 +97,13 @@ class InstagramService {
       console.log(`🔍 Scraping Instagram profile for @${username}`);
       
       const browser = await this.initBrowser();
+      if (!browser) {
+        console.log('⚠️ Browser could not be initialized, returning mock data.');
+        const mockData = this.generateMockData(username);
+        this.setCachedData(username, mockData);
+        return mockData;
+      }
+
       const page = await browser.newPage();
 
       // Set realistic user agent

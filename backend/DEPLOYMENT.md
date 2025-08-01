@@ -19,13 +19,14 @@
    - Add `roastmygram.fun` in Vercel dashboard
    - Configure DNS records as instructed by Vercel
 
-### **Backend Deployment (Render)**
+### **Backend Deployment (Render) - OPTIMIZED**
 
 1. **Create New Web Service:**
    - Connect your GitHub repository
    - Select the `backend` folder
-   - Build Command: `npm install`
-   - Start Command: `npm start`
+   - **Build Command:** `chmod +x render-build.sh && ./render-build.sh`
+   - **Start Command:** `npm start`
+   - **Environment:** Node 18.x
 
 2. **Environment Variables in Render:**
    ```env
@@ -33,11 +34,20 @@
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/roastmygram
    PORT=10000
    BACKEND_URL=https://your-backend-name.onrender.com
+   CHROME_BIN=/usr/bin/google-chrome
    ```
 
 3. **Auto-Deploy Settings:**
    - Enable auto-deploy from main branch
    - Set health check path: `/health`
+   - **Instance Type:** Standard (for better performance)
+
+### **Build Optimization Tips**
+
+1. **Use the optimized build script** (`render-build.sh`) instead of default `npm install`
+2. **The .npmrc file** optimizes npm installation
+3. **puppeteer-core + chrome-aws-lambda** reduces build time significantly
+4. **Node 18.x** provides better performance
 
 ### **Domain Configuration**
 
@@ -82,10 +92,15 @@
 - Check build logs in Render dashboard
 - Ensure all dependencies are in `package.json`
 - Verify environment variables are set correctly
+- **If build still fails:** Try using `npm install` as build command temporarily
 
 #### **MongoDB Connection:**
 - Test MongoDB connection string locally first
 - Ensure IP whitelist includes Render's IPs (0.0.0.0/0 for testing)
+
+#### **Puppeteer Issues:**
+- If Chrome binary issues occur, set `CHROME_BIN=/usr/bin/google-chrome` in environment variables
+- The optimized setup should handle this automatically
 
 ### **Performance Optimization**
 

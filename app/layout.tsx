@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {children}
+        <Analytics />
         <Script
           src="https://cloud.umami.is/script.js"
           data-website-id="04fa11fb-1e57-48ec-9168-ed21f63eed9e"

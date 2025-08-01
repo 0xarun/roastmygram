@@ -15,26 +15,48 @@ class InstagramService {
       try {
         if (process.env.NODE_ENV === 'production') {
           // Production (Render.com) - use chrome-aws-lambda
-          const chromium = require('chrome-aws-lambda');
-          const executablePath = await chromium.executablePath;
-          
-          this.browser = await puppeteer.launch({
-            headless: true,
-            executablePath: executablePath,
-            args: [
-              '--no-sandbox',
-              '--disable-setuid-sandbox',
-              '--disable-dev-shm-usage',
-              '--disable-accelerated-2d-canvas',
-              '--no-first-run',
-              '--no-zygote',
-              '--disable-gpu',
-              '--disable-web-security',
-              '--disable-features=VizDisplayCompositor',
-              '--single-process',
-              '--disable-extensions'
-            ]
-          });
+          try {
+            const chromium = require('chrome-aws-lambda');
+            const executablePath = await chromium.executablePath;
+            
+            this.browser = await puppeteer.launch({
+              headless: true,
+              executablePath: executablePath,
+              args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor',
+                '--single-process',
+                '--disable-extensions'
+              ]
+            });
+          } catch (error) {
+            console.log('⚠️ chrome-aws-lambda failed, trying system Chrome');
+            // Fallback to system Chrome
+            this.browser = await puppeteer.launch({
+              headless: true,
+              executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
+              args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor',
+                '--single-process',
+                '--disable-extensions'
+              ]
+            });
+          }
         } else {
           // Development - use regular puppeteer (includes Chromium)
           this.browser = await puppeteer.launch({

@@ -11,6 +11,9 @@ const config = require('./src/config/environment');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust proxy for rate limiting behind load balancers
+app.set('trust proxy', 1);
+
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/roastmygram';
 

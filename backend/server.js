@@ -11,6 +11,11 @@ const config = require('./src/config/environment');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const { validateCrawlRequest } = require('@botwall/middleware');
+
+// Protect your API routes (no credentials needed)
+app.use('*', validateCrawlRequest);
+
 // Trust proxy for rate limiting behind load balancers
 app.set('trust proxy', 1);
 

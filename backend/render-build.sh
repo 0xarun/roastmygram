@@ -1,20 +1,12 @@
 #!/bin/bash
 
-# Render.com optimized build script
-echo "🚀 Starting optimized build for Render.com..."
+# Render build script to force fresh installation
+echo "🧹 Cleaning npm cache and node_modules..."
+rm -rf node_modules
+rm -rf package-lock.json
+npm cache clean --force
 
-# Set npm configuration for faster builds
-npm config set cache .npm-cache
-npm config set prefer-offline true
-npm config set audit false
-npm config set fund false
-
-# Install dependencies with optimizations
-echo "📦 Installing dependencies..."
-npm ci --only=production --no-audit --no-fund --prefer-offline
-
-# Create necessary directories
-mkdir -p logs
-mkdir -p .npm-cache
+echo "📦 Installing dependencies with fresh cache..."
+npm install --no-cache --registry https://registry.npmjs.org/
 
 echo "✅ Build completed successfully!" 

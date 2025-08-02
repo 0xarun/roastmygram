@@ -29,4 +29,10 @@ else
     echo "⚠️ @botwall/middleware not found, but continuing build..."
 fi
 
+if npm list tweetnacl; then
+    echo "✅ tweetnacl installed successfully!"
+else
+    echo "⚠️ tweetnacl not found, but continuing build..."
+fi
+
 echo "🎉 Build completed successfully!" 

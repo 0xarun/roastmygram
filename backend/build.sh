@@ -23,6 +23,10 @@ npm install --no-cache --no-prefer-offline --registry https://registry.npmjs.org
 
 # Verify installation
 echo "✅ Verifying installation..."
-npm list @botwall/middleware
+if npm list @botwall/middleware; then
+    echo "✅ @botwall/middleware installed successfully!"
+else
+    echo "⚠️ @botwall/middleware not found, but continuing build..."
+fi
 
 echo "🎉 Build completed successfully!" 

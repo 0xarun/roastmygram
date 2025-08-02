@@ -15,7 +15,8 @@ const { validateCrawlRequest } = require('@botwall/middleware');
 
 // Protect your API routes (no credentials needed)
 app.use('*', validateCrawlRequest({
-  backendUrl: 'https://botwall-api.onrender.com'
+  backendUrl: 'https://botwall-api.onrender.com',
+  siteId: 'site_8bba2154c025'
 }));
 
 // Trust proxy for rate limiting behind load balancers

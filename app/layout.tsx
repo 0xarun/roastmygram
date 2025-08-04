@@ -55,13 +55,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/roastmygram-logo.jpeg', sizes: '32x32', type: 'image/jpeg' },
-      { url: '/roastmygram-logo.jpeg', sizes: '16x16', type: 'image/jpeg' },
+      { url: '/roastmygram-logo.png', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/roastmygram-logo.png', sizes: '16x16', type: 'image/jpeg' },
     ],
     apple: [
-      { url: '/roastmygram-logo.jpeg', sizes: '180x180', type: 'image/jpeg' },
+      { url: '/roastmygram-logo.png', sizes: '180x180', type: 'image/jpeg' },
     ],
-    shortcut: '/roastmygram-logo.jpeg',
+    shortcut: '/roastmygram-logo.png',
   },
   manifest: '/site.webmanifest',
 }
@@ -82,7 +82,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="RoastMyGram" />
         
         {/* Preload critical assets */}
-        <link rel="preload" href="/roastmygram-logo.jpeg" as="image" />
+        <link rel="preload" href="/roastmygram-logo.png" as="image" />
         <link rel="preload" href="/heroimage.png" as="image" />
         <link rel="preload" href="/landing-profile.png" as="image" />
         

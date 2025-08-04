@@ -504,7 +504,7 @@ function ScatteredTestimonial({
       <CardContent className={sizeClasses[size]}>
         <div className="flex items-center space-x-2 mb-3">
           <img 
-            src="/roastmygram-logo.jpeg" 
+            src="/roastmygram-logo.png" 
             alt="RoastMyGram Logo" 
             className="w-6 h-6 rounded-full shadow-sm"
           />

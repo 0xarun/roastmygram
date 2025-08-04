@@ -397,7 +397,7 @@ export default function LandingPage() {
         <footer className="container mx-auto px-4 py-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <img 
-              src="/roastmygram-logo.jpeg" 
+              src="/roastmygram-logo.png" 
               alt="RoastMyGram Logo" 
               className="w-8 h-8 rounded-lg shadow-md"
             />
@@ -429,7 +429,7 @@ function ViralRoastCard({
       <CardContent className="p-3 md:p-4 lg:p-6">
         <div className="flex items-center space-x-2 mb-2 md:mb-3 lg:mb-4">
           <img 
-            src="/roastmygram-logo.jpeg" 
+            src="/roastmygram-logo.png" 
             alt="RoastMyGram Logo" 
             className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full shadow-md"
           />

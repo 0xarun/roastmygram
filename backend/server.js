@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const roastRoutes = require('./src/routes/roasts');
+const instagramRoutes = require('./src/routes/instagram');
 const config = require('./src/config/environment');
 
 const app = express();
@@ -65,6 +66,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/roasts', roastRoutes);
+app.use('/api/instagram', instagramRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

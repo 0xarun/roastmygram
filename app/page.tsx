@@ -93,7 +93,7 @@ export default function LandingPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 md:space-x-3">
               <img 
-                src="/roastmygram-logo.jpeg" 
+                src="/roastmygram-logo.png" 
                 alt="RoastMyGram Logo" 
                 className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl shadow-lg"
               />

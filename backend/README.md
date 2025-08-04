@@ -131,7 +131,7 @@ The API will be available at `http://localhost:5000`
 ```
 
 ### 🏥 Health Check
-**GET** `/api/roasts/health`
+**GET** `/health`
 
 **Response:**
 ```json
@@ -154,7 +154,7 @@ backend/
 │   ├── controllers/
 │   │   └── roastController.js    # Main business logic
 │   ├── services/
-│   │   ├── instagramService.js   # Instagram scraping
+│   │   ├── instagramService.js   # Instagram scraping (template)
 │   │   └── databaseService.js    # Database operations
 │   ├── models/
 │   │   ├── User.js              # User model
@@ -162,25 +162,28 @@ backend/
 │   ├── routes/
 │   │   └── roasts.js             # API routes
 │   ├── middleware/               # Custom middleware
-│   └── utils/                    # Utility functions
+│   ├── config/
+│   │   └── environment.js        # Environment configuration
+│   └── utils/
+│       └── constants.js          # Application constants
 ├── server.js                     # Main server file
+├── SCRAPER_IMPLEMENTATION.md     # Guide for implementing new scraper
 └── package.json
 ```
 
 ## 🔧 Features
 
-- ✅ **Fast Instagram Scraping** - Using Puppeteer with caching
+- ✅ **Modular Architecture** - Clean separation of concerns
 - ✅ **MongoDB Integration** - Flexible NoSQL database
 - ✅ **Minimal Database Schema** - Only essential data stored
-- ✅ **Profile Picture URLs** - Direct Instagram URLs, no storage needed
 - ✅ **Rate Limiting** - Built-in protection against abuse
 - ✅ **Error Handling** - Graceful fallbacks and error responses
 - ✅ **Caching** - 1-hour cache for scraped data
 - ✅ **Health Monitoring** - Built-in health check endpoint
+- ✅ **Template for New Scraper** - Ready for third-party integration
 
 ## 🚀 Performance
 
-- **Scraping Speed**: 2-3 seconds for new profiles
 - **Cached Requests**: <100ms for cached data
 - **Concurrent Users**: 10-20 simultaneous requests
 - **Database**: Fast MongoDB with proper indexing
@@ -192,18 +195,22 @@ backend/
 - **CORS Protection**: Configured for frontend domain
 - **Helmet.js**: Security headers and protection
 
+## 🔧 Implementing Your Scraper
+
+The backend is prepared for your new third-party Instagram scraper. See `SCRAPER_IMPLEMENTATION.md` for detailed instructions on:
+
+- Popular third-party scraper options
+- Implementation examples
+- Expected data format
+- Environment variable setup
+
 ## 🐛 Troubleshooting
 
 ### Common Issues:
 
-1. **Puppeteer Installation**: If you get Puppeteer errors, try:
-   ```bash
-   npm rebuild puppeteer
-   ```
-
-2. **MongoDB Connection**: Ensure your MongoDB URI is correct
-
-3. **Instagram Blocking**: The scraper includes anti-detection measures, but Instagram may still block requests. In that case, the API will return fallback data.
+1. **MongoDB Connection**: Ensure your MongoDB URI is correct
+2. **Scraper Implementation**: Follow the guide in `SCRAPER_IMPLEMENTATION.md`
+3. **Environment Variables**: Check that all required variables are set
 
 ## 📝 License
 

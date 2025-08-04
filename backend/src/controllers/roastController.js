@@ -1,5 +1,5 @@
-const instagramService = require('../services/instagramService');
 const databaseService = require('../services/databaseService');
+const instagramService = require('../services/instagramService');
 
 class RoastController {
   // Main endpoint to roast an Instagram profile
@@ -31,7 +31,7 @@ class RoastController {
 
       console.log(`🔥 Starting roast process for @${cleanUsername}`);
 
-      // Step 1: Scrape Instagram profile data
+      // Step 1: Scrape Instagram profile data using new scraper
       const profileData = await instagramService.scrapeProfile(cleanUsername);
 
       // Step 2: Generate roast based on profile data
@@ -100,6 +100,8 @@ class RoastController {
       next(error);
     }
   }
+
+
 
   // Get roast statistics
   async getStats(req, res, next) {

@@ -1,38 +1,42 @@
 #!/bin/bash
 
-set -e
+# Build script for Roast My Insta Backend
+echo "🔥 Building Roast My Insta Backend..."
 
-echo "🚀 Starting fresh build for Render deployment..."
-
-# Clean everything
-echo "🧹 Cleaning all caches and previous installations..."
-rm -rf node_modules
-rm -rf package-lock.json
-rm -rf .npm-cache
-npm cache clean --force
-
-# Clear npm config
-echo "⚙️ Resetting npm configuration..."
-npm config delete cache
-npm config delete prefer-offline
-npm config set registry https://registry.npmjs.org/
-
-# Fresh install with explicit settings
-echo "📦 Installing dependencies with fresh cache..."
-npm install --no-cache --no-prefer-offline --registry https://registry.npmjs.org/
-
-# Verify installation
-echo "✅ Verifying installation..."
-if npm list @botwall/middleware; then
-    echo "✅ @botwall/middleware installed successfully!"
-else
-    echo "⚠️ @botwall/middleware not found, but continuing build..."
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed. Please install Node.js first."
+    exit 1
 fi
 
-if npm list tweetnacl; then
-    echo "✅ tweetnacl installed successfully!"
-else
-    echo "⚠️ tweetnacl not found, but continuing build..."
+# Check if npm is installed
+if ! command -v npm &> /dev/null; then
+    echo "❌ npm is not installed. Please install npm first."
+    exit 1
 fi
 
-echo "🎉 Build completed successfully!" 
+# Install dependencies
+echo "📦 Installing dependencies..."
+npm install
+
+# Check if installation was successful
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to install dependencies"
+    exit 1
+fi
+
+# Create .env file if it doesn't exist
+if [ ! -f .env ]; then
+    echo "📝 Creating .env file from example..."
+    cp example.env .env
+    echo "⚠️  Please edit .env file with your configuration"
+fi
+
+# Run tests (if any)
+echo "🧪 Running tests..."
+npm test
+
+# Build completed
+echo "✅ Build completed successfully!"
+echo "🚀 Start the server with: npm start"
+echo "🔧 Development mode: npm run dev" 

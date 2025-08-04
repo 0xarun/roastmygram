@@ -209,22 +209,13 @@ class InstagramService {
     
     if (profilePicUrl) {
       console.log(`📸 Found profile picture: ${profilePicUrl}`);
-      // Use a proxy service to avoid CORS issues
-      return this.proxyImageUrl(profilePicUrl);
+      // Use a CORS proxy to avoid Instagram's CORS restrictions
+      return `https://images.weserv.nl/?url=${encodeURIComponent(profilePicUrl)}&w=200&h=200&fit=cover`;
     }
     
     // Fallback to generated avatar
     console.log(`🖼️ No profile picture found, using generated avatar for @${username}`);
     return `https://ui-avatars.com/api/?name=${username}&background=random&color=fff&size=200`;
-  }
-
-  /**
-   * Proxy image URL to avoid CORS issues
-   */
-  proxyImageUrl(imageUrl) {
-    // Use our custom proxy endpoint to avoid CORS issues
-    // This is more reliable and gives us full control
-    return `/api/roasts/proxy-image?url=${encodeURIComponent(imageUrl)}`;
   }
 
   /**

@@ -89,40 +89,40 @@ export default function LandingPage() {
 
       <div className="relative z-10">
         {/* Minimal Nav */}
-        <nav className="container mx-auto px-4 py-6">
+        <nav className="container mx-auto px-4 py-4 md:py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 md:space-x-3">
               <img 
                 src="/roastmygram-logo.jpeg" 
                 alt="RoastMyGram Logo" 
-                className="w-12 h-12 rounded-xl shadow-lg"
+                className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl shadow-lg"
               />
-              <span className="text-white font-black text-2xl">roastmygram.fun</span>
+              <span className="text-white font-black text-lg md:text-2xl">roastmygram.fun</span>
             </div>
-            <div className="flex items-center space-x-4">
-              <Badge className="bg-red-500/20 text-red-400 border-red-400/30 animate-pulse">
-                🔴 {roastCount.toLocaleString()} roasts served
+            <div className="flex items-center">
+              <Badge className="bg-red-500/20 text-red-400 border-red-400/30 animate-pulse text-xs md:text-sm px-2 md:px-3 py-1">
+                🔴 {roastCount.toLocaleString()} roasts
               </Badge>
             </div>
           </div>
         </nav>
 
         {/* Hero Section - Social Media Style */}
-        <section className="container mx-auto px-4 py-12">
+        <section className="container mx-auto px-4 py-8 md:py-12">
           <div className="max-w-6xl mx-auto">
             {/* Hero with Cover Image */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Text Content */}
-              <div className="text-center lg:text-left space-y-8">
+              <div className="text-center lg:text-left space-y-6 md:space-y-8">
                 {/* Viral Badge */}
-                <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500/20 to-pink-600/20 rounded-full px-4 py-2 md:px-6 md:py-3 border border-red-400/30">
-                  <div className="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-red-400 font-bold text-sm md:text-base">ROASTING #1 ON SOCIAL</span>
+                <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500/20 to-pink-600/20 rounded-full px-3 py-1.5 md:px-4 md:py-2 lg:px-6 lg:py-3 border border-red-400/30">
+                  <div className="w-1.5 h-1.5 md:w-2 md:h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-red-400 font-bold text-xs md:text-sm lg:text-base">ROASTING #1 ON SOCIAL</span>
                 </div>
 
                 {/* Main Title */}
-                <div className="space-y-4 md:space-y-6">
-                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-none tracking-tight">
+                <div className="space-y-3 md:space-y-4 lg:space-y-6">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black text-white leading-none tracking-tight">
                     GET
                     <br />
                     <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse font-extrabold">
@@ -132,68 +132,68 @@ export default function LandingPage() {
                     <span className="font-black">FOR FUN</span> 🔥
                   </h1>
 
-                  <p className="text-lg md:text-xl lg:text-2xl text-slate-300 font-bold">
+                  <p className="text-base md:text-lg lg:text-xl xl:text-2xl text-slate-300 font-bold">
                     Your Instagram just called.
                     <br />
                     <span className="text-cyan-400">It wants to be roasted.</span>
                   </p>
                   
                   {/* Disclaimer */}
-                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 md:p-4">
-                    <p className="text-yellow-400 text-sm md:text-base font-medium">
+                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2.5 md:p-3 lg:p-4">
+                    <p className="text-yellow-400 text-xs md:text-sm lg:text-base font-medium">
                       ⚠️ All data is fake & generated for entertainment. Pure sarcasm, no AI involved! 😂
                     </p>
                   </div>
                 </div>
 
                 {/* CTA Button */}
-                <div className="mb-6 md:mb-8">
+                <div className="mb-4 md:mb-6 lg:mb-8">
                   <Link href="/input">
                     <Button
                       size="lg"
-                      className="w-full md:w-auto px-8 md:px-12 py-4 md:py-6 text-lg md:text-xl font-black bg-gradient-to-r from-red-500 via-pink-600 to-purple-600 hover:from-red-400 hover:via-pink-500 hover:to-purple-500 border-0 rounded-2xl md:rounded-3xl shadow-2xl hover:shadow-red-500/50 transition-all duration-300 transform hover:scale-105 animate-pulse"
+                      className="w-full md:w-auto px-6 md:px-8 lg:px-12 py-3 md:py-4 lg:py-6 text-base md:text-lg lg:text-xl font-black bg-gradient-to-r from-red-500 via-pink-600 to-purple-600 hover:from-red-400 hover:via-pink-500 hover:to-purple-500 border-0 rounded-xl md:rounded-2xl lg:rounded-3xl shadow-2xl hover:shadow-red-500/50 transition-all duration-300 transform hover:scale-105 animate-pulse"
                     >
                       🚀 ROAST ME NOW
-                      <ArrowRight className="ml-2 md:ml-3 w-5 h-5 md:w-6 md:h-6" />
+                      <ArrowRight className="ml-2 md:ml-3 w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                     </Button>
                   </Link>
                 </div>
 
                 {/* Live Activity Feed */}
-                <div className="backdrop-blur-xl bg-white/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/10 max-w-md mx-auto lg:mx-0">
-                  <div className="flex items-center space-x-2 mb-3 md:mb-4">
-                    <div className="w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="backdrop-blur-xl bg-white/5 rounded-lg md:rounded-xl lg:rounded-2xl p-3 md:p-4 lg:p-6 border border-white/10 max-w-sm md:max-w-md mx-auto lg:mx-0">
+                  <div className="flex items-center space-x-2 mb-2 md:mb-3 lg:mb-4">
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 lg:w-3 lg:h-3 bg-green-500 rounded-full animate-pulse"></div>
                     <span className="text-green-400 font-bold text-xs md:text-sm">LIVE ACTIVITY</span>
                   </div>
-                  <div className="text-white text-sm md:text-base">
+                  <div className="text-white text-xs md:text-sm lg:text-base">
                     <span className="text-cyan-400 font-bold">{liveActivities[currentActivity].user}</span>
                     <span className="mx-1 md:mx-2">{liveActivities[currentActivity].action}</span>
                     <span className="text-slate-400 text-xs md:text-sm">{liveActivities[currentActivity].time}</span>
-                    <span className="ml-1 md:ml-2 text-lg md:text-xl">{liveActivities[currentActivity].emoji}</span>
+                    <span className="ml-1 md:ml-2 text-base md:text-lg lg:text-xl">{liveActivities[currentActivity].emoji}</span>
                   </div>
                 </div>
               </div>
 
               {/* Hero Image */}
               <div className="relative flex justify-center">
-                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transform rotate-1 md:rotate-2 hover:rotate-0 transition-transform duration-500 max-w-full">
+                <div className="relative rounded-xl md:rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl transform rotate-1 md:rotate-2 hover:rotate-0 transition-transform duration-500 max-w-full">
                   <img 
                     src="/heroimage.png" 
                     alt="RoastMyGram Hero - Get Your Instagram Roasted for Fun" 
-                    className="w-full h-auto max-h-[300px] md:max-h-[400px] object-contain"
+                    className="w-full h-auto max-h-[200px] sm:max-h-[250px] md:max-h-[300px] lg:max-h-[400px] object-contain"
                   />
                   {/* Overlay with logo */}
                   <div className="absolute top-2 md:top-4 left-2 md:left-4">
                     <img 
                       src="/roastmygram-logo.jpeg" 
                       alt="RoastMyGram Logo" 
-                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl shadow-lg"
+                      className="w-6 h-6 md:w-8 md:h-8 lg:w-12 lg:h-12 rounded-md md:rounded-lg lg:rounded-xl shadow-lg"
                     />
                   </div>
                   {/* Floating elements on hero image */}
-                  <div className="absolute top-1/4 right-2 md:right-4 text-2xl md:text-3xl animate-bounce">💀</div>
-                  <div className="absolute bottom-1/4 left-2 md:left-4 text-xl md:text-2xl animate-pulse">🔥</div>
-                  <div className="absolute bottom-1/3 right-1/4 text-lg md:text-xl animate-bounce delay-1000">😭</div>
+                  <div className="absolute top-1/4 right-2 md:right-4 text-lg md:text-2xl lg:text-3xl animate-bounce">💀</div>
+                  <div className="absolute bottom-1/4 left-2 md:left-4 text-base md:text-xl lg:text-2xl animate-pulse">🔥</div>
+                  <div className="absolute bottom-1/3 right-1/4 text-sm md:text-lg lg:text-xl animate-bounce delay-1000">😭</div>
                 </div>
               </div>
             </div>
@@ -201,8 +201,8 @@ export default function LandingPage() {
         </section>
 
         {/* Viral Moments Feed */}
-        <section className="container mx-auto px-4 py-12 md:py-16 relative">
-          {/* Floating Profile Example */}
+        <section className="container mx-auto px-4 py-8 md:py-12 lg:py-16 relative">
+          {/* Floating Profile Example - Desktop */}
           <div className="absolute top-20 right-4 md:right-8 hidden lg:block">
             <div className="relative transform rotate-6 hover:rotate-0 transition-transform duration-500">
               <img 
@@ -216,19 +216,19 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4">
+          <div className="text-center mb-6 md:mb-8 lg:mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-2 md:mb-3 lg:mb-4">
               <span className="text-pink-400">VIRAL</span> ROASTS 🔥
             </h2>
-            <p className="text-lg md:text-xl text-slate-300 mb-4">These roasts broke the internet (and some egos)</p>
-            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 max-w-md mx-auto">
-              <p className="text-yellow-400 text-sm font-medium">
+            <p className="text-sm md:text-lg lg:text-xl text-slate-300 mb-3 md:mb-4">These roasts broke the internet (and some egos)</p>
+            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2.5 md:p-3 max-w-sm md:max-w-md mx-auto">
+              <p className="text-yellow-400 text-xs md:text-sm font-medium">
                 🎭 All usernames & stats are fictional for maximum laughs!
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-8 max-w-6xl mx-auto">
             {viralMoments.map((moment, index) => (
               <ViralRoastCard key={index} {...moment} />
             ))}
@@ -401,18 +401,18 @@ function ViralRoastCard({
 }) {
   return (
     <Card className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-500 group hover:scale-105">
-      <CardContent className="p-4 md:p-6">
-        <div className="flex items-center space-x-2 mb-3 md:mb-4">
+      <CardContent className="p-3 md:p-4 lg:p-6">
+        <div className="flex items-center space-x-2 mb-2 md:mb-3 lg:mb-4">
           <img 
             src="/roastmygram-logo.jpeg" 
             alt="RoastMyGram Logo" 
-            className="w-6 h-6 md:w-8 md:h-8 rounded-full shadow-md"
+            className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full shadow-md"
           />
           <span className="text-cyan-400 font-bold text-xs md:text-sm">{user}</span>
-          <Badge className="bg-red-500/20 text-red-400 text-xs">VIRAL</Badge>
+          <Badge className="bg-red-500/20 text-red-400 text-xs px-1.5 py-0.5">VIRAL</Badge>
         </div>
 
-        <p className="text-white mb-3 md:mb-4 leading-relaxed font-medium text-sm md:text-base">"{roast}"</p>
+        <p className="text-white mb-2 md:mb-3 lg:mb-4 leading-relaxed font-medium text-xs md:text-sm lg:text-base">"{roast}"</p>
 
         <div className="flex items-center justify-between text-slate-400 text-xs md:text-sm">
           <div className="flex items-center space-x-1">

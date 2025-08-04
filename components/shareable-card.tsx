@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { X, Download, Copy, Sparkles, Share2 } from "lucide-react"
 import { useRef, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import html2canvas from "html2canvas"
 
 interface ShareableCardProps {
   data: any
@@ -18,112 +17,150 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
   const { toast } = useToast()
 
   const handleDownloadPNG = async () => {
-    if (!cardRef.current) return
-    
     try {
       setIsGenerating(true)
       
-      // Create a temporary container with clean styling
-      const tempContainer = document.createElement('div')
-      tempContainer.style.position = 'absolute'
-      tempContainer.style.left = '-9999px'
-      tempContainer.style.top = '-9999px'
-      tempContainer.style.width = '400px'
-      tempContainer.style.height = '600px'
-      tempContainer.style.background = 'linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%)'
-      tempContainer.style.borderRadius = '16px'
-      tempContainer.style.border = '1px solid rgba(255, 255, 255, 0.2)'
-      tempContainer.style.padding = '24px'
-      tempContainer.style.fontFamily = 'Arial, sans-serif'
-      tempContainer.style.color = '#ffffff'
-      tempContainer.style.overflow = 'hidden'
+      // Create canvas element
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        throw new Error('Could not get canvas context')
+      }
+
+      // Set dimensions for Instagram Story (9:16 aspect ratio)
+      canvas.width = 1080
+      canvas.height = 1920
+
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+      gradient.addColorStop(0, '#0f172a')
+      gradient.addColorStop(0.5, '#581c87')
+      gradient.addColorStop(1, '#0f172a')
+      ctx.fillStyle = gradient
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Add decorative blur circles
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.2)'
+      ctx.beginPath()
+      ctx.arc(800, 200, 100, 0, 2 * Math.PI)
+      ctx.fill()
+
+      ctx.fillStyle = 'rgba(168, 85, 247, 0.2)'
+      ctx.beginPath()
+      ctx.arc(200, 1600, 100, 0, 2 * Math.PI)
+      ctx.fill()
+
+      // Add profile image placeholder
+      ctx.fillStyle = '#374151'
+      ctx.beginPath()
+      ctx.arc(canvas.width / 2, 200, 80, 0, 2 * Math.PI)
+      ctx.fill()
       
-      // Add decorative elements
-      tempContainer.innerHTML = `
-        <div style="position: absolute; top: 40px; right: 40px; width: 128px; height: 128px; background: radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%); border-radius: 50%; filter: blur(32px);"></div>
-        <div style="position: absolute; bottom: 40px; left: 40px; width: 128px; height: 128px; background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%); border-radius: 50%; filter: blur(32px);"></div>
+      // Profile image border
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+      ctx.lineWidth = 4
+      ctx.stroke()
+
+      // Username
+      ctx.fillStyle = '#ffffff'
+      ctx.font = 'bold 72px Arial'
+      ctx.textAlign = 'center'
+      ctx.fillText(`@${data.profile.username}`, canvas.width / 2, 380)
+
+      // Personality badge
+      const badgeGradient = ctx.createLinearGradient(canvas.width / 2 - 200, 400, canvas.width / 2 + 200, 460)
+      badgeGradient.addColorStop(0, '#8b5cf6')
+      badgeGradient.addColorStop(1, '#4f46e5')
+      ctx.fillStyle = badgeGradient
+      ctx.fillRect(canvas.width / 2 - 200, 400, 400, 60)
+      
+      ctx.fillStyle = '#ffffff'
+      ctx.font = 'bold 32px Arial'
+      ctx.fillText(`${data.personality.emoji} ${data.personality.title}`, canvas.width / 2, 440)
+
+      // Stats
+      ctx.fillStyle = '#ffffff'
+      ctx.font = 'bold 48px Arial'
+      ctx.fillText(`${data.profile.posts} Posts`, canvas.width / 2 - 250, 540)
+      ctx.fillText(`${data.profile.followers.toLocaleString()} Followers`, canvas.width / 2, 540)
+      ctx.fillText(`${data.profile.following.toLocaleString()} Following`, canvas.width / 2 + 250, 540)
+
+      // Metrics boxes
+      const metrics = [
+        { value: data.metrics.profileWorth, label: 'Profile Worth 💰', x: 200 },
+        { value: data.metrics.reelsWatched.toLocaleString(), label: 'Reels Watched 🎬', x: 400 },
+        { value: data.metrics.loveMeter, label: 'Love Meter 💌', x: 600 },
+        { value: `${data.metrics.singleness}%`, label: 'Single Level 💔', x: 800 }
+      ]
+
+      metrics.forEach(metric => {
+        // Box background
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+        ctx.fillRect(metric.x - 100, 600, 200, 120)
         
-        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-          <!-- Profile Section -->
-          <div style="text-align: center;">
-            <div style="position: relative; display: inline-block; margin-bottom: 16px;">
-              <img src="${data.profile.profilePic || '/placeholder.svg'}" alt="Profile" style="width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.3);" />
-              ${data.profile.verified ? '<div style="position: absolute; bottom: -4px; right: -4px; background: #3b82f6; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: white;">✓</div>' : ''}
-            </div>
-            <h3 style="font-size: 24px; font-weight: 900; margin: 0 0 8px 0;">@${data.profile.username}</h3>
-            <div style="background: linear-gradient(to right, #8b5cf6, #4f46e5); padding: 8px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold;">
-              <span>${data.personality.emoji}</span>
-              <span>${data.personality.title}</span>
-            </div>
-          </div>
-          
-          <!-- Stats Row -->
-          <div style="display: flex; justify-content: center; gap: 24px; text-align: center; margin: 16px 0;">
-            <div>
-              <div style="font-size: 20px; font-weight: bold;">${data.profile.posts}</div>
-              <div style="font-size: 12px; color: #94a3b8;">Posts</div>
-            </div>
-            <div>
-              <div style="font-size: 20px; font-weight: bold;">${data.profile.followers.toLocaleString()}</div>
-              <div style="font-size: 12px; color: #94a3b8;">Followers</div>
-            </div>
-            <div>
-              <div style="font-size: 20px; font-weight: bold;">${data.profile.following.toLocaleString()}</div>
-              <div style="font-size: 12px; color: #94a3b8;">Following</div>
-            </div>
-          </div>
-          
-          <!-- Metrics Grid -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
-            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 20px; font-weight: 900;">${data.metrics.profileWorth}</div>
-              <div style="font-size: 10px; color: #cbd5e1;">Profile Worth 💰</div>
-            </div>
-            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 20px; font-weight: 900;">${data.metrics.reelsWatched.toLocaleString()}</div>
-              <div style="font-size: 10px; color: #cbd5e1;">Reels Watched 🎬</div>
-            </div>
-            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 20px; font-weight: 900;">${data.metrics.loveMeter}</div>
-              <div style="font-size: 10px; color: #cbd5e1;">Love Meter 💌</div>
-            </div>
-            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 20px; font-weight: 900;">${data.metrics.singleness}%</div>
-              <div style="font-size: 10px; color: #cbd5e1;">Single Level 💔</div>
-            </div>
-          </div>
-          
-          <!-- Roast Summary -->
-          <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px; margin: 16px 0;">
-            <p style="font-size: 12px; text-align: center; line-height: 1.4; margin: 0;">
-              <span style="font-weight: bold; color: #22d3ee;">"${data.personality.desc}"</span> Your vibe is pure ${data.metrics.emojiEnergy} energy with a side of chaos. Profile rating: <span style="font-weight: bold; color: #a855f7;">${data.metrics.rating}/10</span> - not bad for someone who posts ${data.metrics.cringePosts} cringe posts! <span style="font-size: 16px;">💀</span>
-            </p>
-          </div>
-          
-          <!-- Watermark -->
-          <div style="text-align: center; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-            <p style="font-size: 10px; font-weight: medium; color: #94a3b8; margin: 0;">
-              <span style="background: linear-gradient(to right, #22d3ee, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: bold;">roastmygram.fun</span> 🔥
-            </p>
-          </div>
-        </div>
-      `
-      
-      document.body.appendChild(tempContainer)
-      
-      // Capture the temporary container
-      const canvas = await html2canvas(tempContainer, {
-        useCORS: true,
-        allowTaint: true,
-        width: 400,
-        height: 600,
-        background: '#000000',
-        logging: false,
+        // Box border
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+        ctx.lineWidth = 1
+        ctx.strokeRect(metric.x - 100, 600, 200, 120)
+        
+        // Value
+        ctx.fillStyle = '#ffffff'
+        ctx.font = 'bold 48px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText(metric.value, metric.x, 650)
+        
+        // Label
+        ctx.fillStyle = '#cbd5e1'
+        ctx.font = 'bold 20px Arial'
+        ctx.fillText(metric.label, metric.x, 680)
       })
+
+      // Roast text box
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+      ctx.fillRect(100, 800, 800, 250)
       
-      // Remove temporary container
-      document.body.removeChild(tempContainer)
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+      ctx.lineWidth = 1
+      ctx.strokeRect(100, 800, 800, 250)
+
+      // Personality description
+      ctx.fillStyle = '#22d3ee'
+      ctx.font = 'bold 36px Arial'
+      ctx.textAlign = 'center'
+      ctx.fillText(`"${data.personality.desc}"`, canvas.width / 2, 850)
+
+      // Main roast text
+      ctx.fillStyle = '#ffffff'
+      ctx.font = 'bold 28px Arial'
+      const roastText = `Your vibe is pure ${data.metrics.emojiEnergy} energy with a side of chaos. Profile rating: ${data.metrics.rating}/10 - not bad for someone who posts ${data.metrics.cringePosts} cringe posts! 💀`
       
+      // Text wrapping
+      const words = roastText.split(' ')
+      let line = ''
+      let y = 920
+      const maxWidth = 750
+      
+      for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' '
+        const metrics = ctx.measureText(testLine)
+        if (metrics.width > maxWidth && i > 0) {
+          ctx.fillText(line, canvas.width / 2, y)
+          line = words[i] + ' '
+          y += 40
+        } else {
+          line = testLine
+        }
+      }
+      ctx.fillText(line, canvas.width / 2, y)
+
+      // Watermark
+      const watermarkGradient = ctx.createLinearGradient(canvas.width / 2 - 100, 1150, canvas.width / 2 + 100, 1150)
+      watermarkGradient.addColorStop(0, '#22d3ee')
+      watermarkGradient.addColorStop(1, '#a855f7')
+      ctx.fillStyle = watermarkGradient
+      ctx.font = 'bold 32px Arial'
+      ctx.fillText('roastmygram.fun 🔥', canvas.width / 2, 1180)
+
       // Convert to blob and download
       canvas.toBlob((blob) => {
         if (blob) {
@@ -176,8 +213,8 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-      <div className="max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+      <div className="w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         <Card className="overflow-hidden shadow-2xl" style={{ 
           background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(88, 28, 135, 0.95) 50%, rgba(15, 23, 42, 0.95) 100%)',
           borderColor: 'rgba(255, 255, 255, 0.2)',
@@ -189,18 +226,18 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               onClick={onClose}
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 z-20 text-white hover:bg-white/20 rounded-full"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20 text-white hover:bg-white/20 rounded-full"
               aria-label="Close share dialog"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
 
             {/* Card Content */}
-            <div className="p-6 space-y-6">
+            <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
               {/* Header */}
-              <div className="text-center space-y-4">
-                <h2 className="text-2xl font-black text-white">Share Your Roast</h2>
-                <p className="text-sm" style={{ color: '#cbd5e1' }}>
+              <div className="text-center space-y-3 sm:space-y-4">
+                <h2 className="text-xl sm:text-2xl font-black text-white">Share Your Roast</h2>
+                <p className="text-xs sm:text-sm" style={{ color: '#cbd5e1' }}>
                   Download as PNG and share on Instagram Stories
                 </p>
               </div>
@@ -208,13 +245,13 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               {/* Preview Card - This will be captured for PNG */}
               <div 
                 ref={cardRef}
-                className={`relative w-full rounded-2xl overflow-hidden border shadow-2xl transition-all duration-300 ${
+                className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden border shadow-2xl transition-all duration-300 ${
                   isGenerating ? 'scale-105' : ''
                 }`}
                 style={{ 
                   width: '100%', 
-                  height: '600px', // Fixed height for consistent PNG generation
-                  maxWidth: '400px',
+                  height: '500px', // Reduced height for mobile
+                  maxWidth: '350px',
                   margin: '0 auto',
                   background: 'linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%)',
                   borderColor: 'rgba(255, 255, 255, 0.2)',
@@ -238,26 +275,26 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                 </div>
 
                 {/* Card Content */}
-                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                <div className="relative z-10 p-4 sm:p-6 h-full flex flex-col justify-between">
                   {/* Header with Profile */}
-                  <div className="text-center space-y-4">
+                  <div className="text-center space-y-3 sm:space-y-4">
                     <div className="relative inline-block">
                       <img
                         src={data.profile.profilePic || "/placeholder.svg"}
                         alt="Profile"
-                        className="w-16 h-16 rounded-full border-3 shadow-lg mx-auto"
+                        className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-3 shadow-lg mx-auto"
                         style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
                       />
                       {data.profile.verified && (
                         <div className="absolute -bottom-1 -right-1 rounded-full p-1" style={{ backgroundColor: '#3b82f6' }}>
-                          <Sparkles className="w-3 h-3 text-white" />
+                          <Sparkles className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
                         </div>
                       )}
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-white">@{data.profile.username}</h3>
+                      <h3 className="text-lg sm:text-xl font-black text-white">@{data.profile.username}</h3>
                       <div
-                        className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-white font-bold text-xs mt-2"
+                        className="inline-flex items-center space-x-2 px-2 sm:px-3 py-1 rounded-full text-white font-bold text-xs mt-2"
                         style={{
                           background: data.personality.color === 'from-purple-500 to-indigo-600' ? 'linear-gradient(to right, #8b5cf6, #4f46e5)' :
                                    data.personality.color === 'from-blue-500 to-cyan-600' ? 'linear-gradient(to right, #3b82f6, #0891b2)' :
@@ -275,49 +312,49 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                   </div>
 
                   {/* Stats Row */}
-                  <div className="flex justify-center space-x-6 text-center">
+                  <div className="flex justify-center space-x-4 sm:space-x-6 text-center">
                     <div>
-                      <div className="text-lg font-bold text-white">{data.profile.posts}</div>
+                      <div className="text-sm sm:text-lg font-bold text-white">{data.profile.posts}</div>
                       <div className="text-xs" style={{ color: '#94a3b8' }}>Posts</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-white">{data.profile.followers.toLocaleString()}</div>
+                      <div className="text-sm sm:text-lg font-bold text-white">{data.profile.followers.toLocaleString()}</div>
                       <div className="text-xs" style={{ color: '#94a3b8' }}>Followers</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-white">{data.profile.following.toLocaleString()}</div>
+                      <div className="text-sm sm:text-lg font-bold text-white">{data.profile.following.toLocaleString()}</div>
                       <div className="text-xs" style={{ color: '#94a3b8' }}>Following</div>
                     </div>
                   </div>
 
                   {/* Key Metrics Grid */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-                      <div className="text-lg font-black text-white">{data.metrics.profileWorth}</div>
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    <div className="rounded-lg sm:rounded-xl p-2 sm:p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+                      <div className="text-sm sm:text-lg font-black text-white">{data.metrics.profileWorth}</div>
                       <div className="text-xs" style={{ color: '#cbd5e1' }}>Profile Worth 💰</div>
                     </div>
-                    <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-                      <div className="text-lg font-black text-white">{data.metrics.reelsWatched.toLocaleString()}</div>
+                    <div className="rounded-lg sm:rounded-xl p-2 sm:p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+                      <div className="text-sm sm:text-lg font-black text-white">{data.metrics.reelsWatched.toLocaleString()}</div>
                       <div className="text-xs" style={{ color: '#cbd5e1' }}>Reels Watched 🎬</div>
                     </div>
-                    <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-                      <div className="text-lg font-black text-white">{data.metrics.loveMeter}</div>
+                    <div className="rounded-lg sm:rounded-xl p-2 sm:p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+                      <div className="text-sm sm:text-lg font-black text-white">{data.metrics.loveMeter}</div>
                       <div className="text-xs" style={{ color: '#cbd5e1' }}>Love Meter 💌</div>
                     </div>
-                    <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-                      <div className="text-lg font-black text-white">{data.metrics.singleness}%</div>
+                    <div className="rounded-lg sm:rounded-xl p-2 sm:p-3 text-center border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+                      <div className="text-sm sm:text-lg font-black text-white">{data.metrics.singleness}%</div>
                       <div className="text-xs" style={{ color: '#cbd5e1' }}>Single Level 💔</div>
                     </div>
                   </div>
 
                   {/* Roast Summary */}
-                  <div className="rounded-xl p-4 border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-                    <p className="text-white text-sm text-center leading-relaxed">
+                  <div className="rounded-lg sm:rounded-xl p-3 sm:p-4 border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+                    <p className="text-white text-xs sm:text-sm text-center leading-relaxed">
                       <span className="font-bold" style={{ color: '#22d3ee' }}>"{data.personality.desc}"</span> Your vibe is pure{" "}
                       {data.metrics.emojiEnergy} energy with a side of chaos. Profile rating:{" "}
                       <span className="font-bold" style={{ color: '#a855f7' }}>{data.metrics.rating}/10</span> - not bad for someone who
                       posts {data.metrics.cringePosts} cringe posts!
-                      <span className="text-xl"> 💀</span>
+                      <span className="text-lg sm:text-xl"> 💀</span>
                     </p>
                   </div>
 
@@ -334,11 +371,11 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               </div>
 
               {/* Action Buttons */}
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <Button
                   onClick={handleDownloadPNG}
                   disabled={isGenerating}
-                  className="w-full font-bold py-3 shadow-lg transition-all duration-300 disabled:opacity-50"
+                  className="w-full font-bold py-2.5 sm:py-3 shadow-lg transition-all duration-300 disabled:opacity-50 text-sm sm:text-base"
                   style={{
                     background: 'linear-gradient(to right, #ec4899, #9333ea, #2563eb)',
                     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
@@ -346,9 +383,9 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                   aria-label="Download as PNG"
                 >
                   {isGenerating ? (
-                    <div className="w-4 h-4 border-2 rounded-full animate-spin mr-2" style={{ borderColor: 'rgba(255, 255, 255, 0.3)', borderTopColor: '#ffffff' }}></div>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 rounded-full animate-spin mr-2" style={{ borderColor: 'rgba(255, 255, 255, 0.3)', borderTopColor: '#ffffff' }}></div>
                   ) : (
-                    <Download className="w-4 h-4 mr-2" />
+                    <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                   )}
                   {isGenerating ? 'Creating PNG...' : '📱 Download PNG for Stories'}
                 </Button>
@@ -357,7 +394,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                   <Button
                     onClick={handleCopyLink}
                     variant="outline"
-                    className="text-white"
+                    className="text-white text-xs sm:text-sm py-2 sm:py-2.5"
                     style={{
                       borderColor: 'rgba(255, 255, 255, 0.3)',
                       backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -365,13 +402,13 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                     }}
                     aria-label="Copy share link"
                   >
-                    <Copy className="w-4 h-4 mr-2" />
+                    <Copy className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                     Copy Link
                   </Button>
                   <Button
                     onClick={() => window.open('https://instagram.com', '_blank')}
                     variant="outline"
-                    className="text-white"
+                    className="text-white text-xs sm:text-sm py-2 sm:py-2.5"
                     style={{
                       borderColor: 'rgba(255, 255, 255, 0.3)',
                       backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -379,7 +416,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                     }}
                     aria-label="Open Instagram"
                   >
-                    <Share2 className="w-4 h-4 mr-2" />
+                    <Share2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                     Open Instagram
                   </Button>
                 </div>

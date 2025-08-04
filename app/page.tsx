@@ -203,7 +203,7 @@ export default function LandingPage() {
                   {/* Overlay with logo */}
                   <div className="absolute top-2 md:top-4 left-2 md:left-4">
                     <img 
-                      src="/roastmygram-logo.jpeg" 
+                      src="/roastmygram-logo.png"
                       alt="RoastMyGram Logo" 
                       className="w-6 h-6 md:w-8 md:h-8 lg:w-12 lg:h-12 rounded-md md:rounded-lg lg:rounded-xl shadow-lg"
                     />

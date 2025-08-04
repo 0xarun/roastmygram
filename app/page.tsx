@@ -174,13 +174,13 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Landing Profile Image */}
+              {/* Hero Image */}
               <div className="relative flex justify-center">
-                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transform rotate-2 md:rotate-3 hover:rotate-0 transition-transform duration-500 max-w-xs md:max-w-sm">
+                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transform rotate-1 md:rotate-2 hover:rotate-0 transition-transform duration-500 max-w-full">
                   <img 
-                    src="/landing-profile.png" 
-                    alt="RoastMyGram Profile - Get Your Instagram Roasted by AI" 
-                    className="w-full h-auto max-h-[400px] md:max-h-[500px] object-contain"
+                    src="/heroimage.png" 
+                    alt="RoastMyGram Hero - Get Your Instagram Roasted for Fun" 
+                    className="w-full h-auto max-h-[300px] md:max-h-[400px] object-contain"
                   />
                   {/* Overlay with logo */}
                   <div className="absolute top-2 md:top-4 left-2 md:left-4">
@@ -190,7 +190,7 @@ export default function LandingPage() {
                       className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl shadow-lg"
                     />
                   </div>
-                  {/* Floating elements on profile image */}
+                  {/* Floating elements on hero image */}
                   <div className="absolute top-1/4 right-2 md:right-4 text-2xl md:text-3xl animate-bounce">💀</div>
                   <div className="absolute bottom-1/4 left-2 md:left-4 text-xl md:text-2xl animate-pulse">🔥</div>
                   <div className="absolute bottom-1/3 right-1/4 text-lg md:text-xl animate-bounce delay-1000">😭</div>
@@ -201,7 +201,21 @@ export default function LandingPage() {
         </section>
 
         {/* Viral Moments Feed */}
-        <section className="container mx-auto px-4 py-12 md:py-16">
+        <section className="container mx-auto px-4 py-12 md:py-16 relative">
+          {/* Floating Profile Example */}
+          <div className="absolute top-20 right-4 md:right-8 hidden lg:block">
+            <div className="relative transform rotate-6 hover:rotate-0 transition-transform duration-500">
+              <img 
+                src="/landing-profile.png" 
+                alt="Example Roast Profile" 
+                className="w-32 h-auto rounded-xl shadow-2xl"
+              />
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold animate-pulse">
+                EXAMPLE
+              </div>
+            </div>
+          </div>
+
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4">
               <span className="text-pink-400">VIRAL</span> ROASTS 🔥
@@ -223,6 +237,20 @@ export default function LandingPage() {
 
         {/* Social Proof - Scattered Style */}
         <section className="container mx-auto px-4 py-16 relative">
+          {/* Mobile Profile Example */}
+          <div className="absolute top-10 left-4 md:left-8 lg:hidden">
+            <div className="relative transform -rotate-6 hover:rotate-0 transition-transform duration-500">
+              <img 
+                src="/landing-profile.png" 
+                alt="Example Roast Profile" 
+                className="w-24 h-auto rounded-lg shadow-xl"
+              />
+              <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold animate-pulse">
+                SAMPLE
+              </div>
+            </div>
+          </div>
+
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
               WHAT THE <span className="text-yellow-400">INTERNET</span> SAYS

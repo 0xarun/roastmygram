@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { X, Download, Instagram, Copy, Sparkles, Share2 } from "lucide-react"
+import { X, Download, Copy, Sparkles, Share2 } from "lucide-react"
 import { useRef, useState } from "react"
-import html2canvas from "html2canvas"
 import { useToast } from "@/hooks/use-toast"
+import html2canvas from "html2canvas"
 
 interface ShareableCardProps {
   data: any
@@ -23,16 +23,107 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
     try {
       setIsGenerating(true)
       
-      // Configure html2canvas for high quality Instagram Story dimensions
-      const canvas = await html2canvas(cardRef.current, {
+      // Create a temporary container with clean styling
+      const tempContainer = document.createElement('div')
+      tempContainer.style.position = 'absolute'
+      tempContainer.style.left = '-9999px'
+      tempContainer.style.top = '-9999px'
+      tempContainer.style.width = '400px'
+      tempContainer.style.height = '600px'
+      tempContainer.style.background = 'linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%)'
+      tempContainer.style.borderRadius = '16px'
+      tempContainer.style.border = '1px solid rgba(255, 255, 255, 0.2)'
+      tempContainer.style.padding = '24px'
+      tempContainer.style.fontFamily = 'Arial, sans-serif'
+      tempContainer.style.color = '#ffffff'
+      tempContainer.style.overflow = 'hidden'
+      
+      // Add decorative elements
+      tempContainer.innerHTML = `
+        <div style="position: absolute; top: 40px; right: 40px; width: 128px; height: 128px; background: radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%); border-radius: 50%; filter: blur(32px);"></div>
+        <div style="position: absolute; bottom: 40px; left: 40px; width: 128px; height: 128px; background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%); border-radius: 50%; filter: blur(32px);"></div>
+        
+        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+          <!-- Profile Section -->
+          <div style="text-align: center;">
+            <div style="position: relative; display: inline-block; margin-bottom: 16px;">
+              <img src="${data.profile.profilePic || '/placeholder.svg'}" alt="Profile" style="width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.3);" />
+              ${data.profile.verified ? '<div style="position: absolute; bottom: -4px; right: -4px; background: #3b82f6; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: white;">✓</div>' : ''}
+            </div>
+            <h3 style="font-size: 24px; font-weight: 900; margin: 0 0 8px 0;">@${data.profile.username}</h3>
+            <div style="background: linear-gradient(to right, #8b5cf6, #4f46e5); padding: 8px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold;">
+              <span>${data.personality.emoji}</span>
+              <span>${data.personality.title}</span>
+            </div>
+          </div>
+          
+          <!-- Stats Row -->
+          <div style="display: flex; justify-content: center; gap: 24px; text-align: center; margin: 16px 0;">
+            <div>
+              <div style="font-size: 20px; font-weight: bold;">${data.profile.posts}</div>
+              <div style="font-size: 12px; color: #94a3b8;">Posts</div>
+            </div>
+            <div>
+              <div style="font-size: 20px; font-weight: bold;">${data.profile.followers.toLocaleString()}</div>
+              <div style="font-size: 12px; color: #94a3b8;">Followers</div>
+            </div>
+            <div>
+              <div style="font-size: 20px; font-weight: bold;">${data.profile.following.toLocaleString()}</div>
+              <div style="font-size: 12px; color: #94a3b8;">Following</div>
+            </div>
+          </div>
+          
+          <!-- Metrics Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
+              <div style="font-size: 20px; font-weight: 900;">${data.metrics.profileWorth}</div>
+              <div style="font-size: 10px; color: #cbd5e1;">Profile Worth 💰</div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
+              <div style="font-size: 20px; font-weight: 900;">${data.metrics.reelsWatched.toLocaleString()}</div>
+              <div style="font-size: 10px; color: #cbd5e1;">Reels Watched 🎬</div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
+              <div style="font-size: 20px; font-weight: 900;">${data.metrics.loveMeter}</div>
+              <div style="font-size: 10px; color: #cbd5e1;">Love Meter 💌</div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; text-align: center;">
+              <div style="font-size: 20px; font-weight: 900;">${data.metrics.singleness}%</div>
+              <div style="font-size: 10px; color: #cbd5e1;">Single Level 💔</div>
+            </div>
+          </div>
+          
+          <!-- Roast Summary -->
+          <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px; margin: 16px 0;">
+            <p style="font-size: 12px; text-align: center; line-height: 1.4; margin: 0;">
+              <span style="font-weight: bold; color: #22d3ee;">"${data.personality.desc}"</span> Your vibe is pure ${data.metrics.emojiEnergy} energy with a side of chaos. Profile rating: <span style="font-weight: bold; color: #a855f7;">${data.metrics.rating}/10</span> - not bad for someone who posts ${data.metrics.cringePosts} cringe posts! <span style="font-size: 16px;">💀</span>
+            </p>
+          </div>
+          
+          <!-- Watermark -->
+          <div style="text-align: center; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p style="font-size: 10px; font-weight: medium; color: #94a3b8; margin: 0;">
+              <span style="background: linear-gradient(to right, #22d3ee, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: bold;">roastmygram.fun</span> 🔥
+            </p>
+          </div>
+        </div>
+      `
+      
+      document.body.appendChild(tempContainer)
+      
+      // Capture the temporary container
+      const canvas = await html2canvas(tempContainer, {
         useCORS: true,
         allowTaint: true,
-        width: 1080,
-        height: 1920,
-        background: '#000000', // Ensure black background
+        width: 400,
+        height: 600,
+        background: '#000000',
         logging: false,
       })
-
+      
+      // Remove temporary container
+      document.body.removeChild(tempContainer)
+      
       // Convert to blob and download
       canvas.toBlob((blob) => {
         if (blob) {
@@ -48,7 +139,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
             
             toast({
               title: "Download Complete!",
-              description: "PNG image saved to your device. Ready for Instagram! 🎉",
+              description: "PNG image saved to your device. Ready for Instagram Stories! 🎉",
             })
           } catch (error) {
             console.error('Download failed:', error)
@@ -59,7 +150,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
             })
           }
         }
-      }, 'image/png', 1.0) // Maximum quality
+      }, 'image/png', 1.0)
       
     } catch (error) {
       console.error('Error generating PNG:', error)
@@ -73,99 +164,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
     }
   }
 
-  const handleShareInstagram = async () => {
-    try {
-      setIsGenerating(true)
-      
-      // Generate the image first
-      if (!cardRef.current) return
-      
-      const canvas = await html2canvas(cardRef.current, {
-        useCORS: true,
-        allowTaint: true,
-        width: 1080,
-        height: 1920,
-        background: '#000000', // Ensure black background
-        logging: false,
-      })
 
-      // Convert to blob
-      canvas.toBlob(async (blob) => {
-        if (blob) {
-          // Create a file from the blob
-          const file = new File([blob], `roast-${data.profile.username}.png`, { type: 'image/png' })
-          
-          // Check if we're on mobile and Web Share API is available
-          const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-          
-          if (isMobile && navigator.share && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                title: `My Instagram Roast - @${data.profile.username}`,
-                text: `Check out my Instagram roast! 🔥`,
-                files: [file],
-                url: `https://roastmygram.fun/roast/${data.profile.username}`
-              })
-            } catch (error) {
-              console.log('Share cancelled or failed:', error)
-              // Fallback to Instagram app opening
-              openInstagramApp()
-            }
-          } else {
-            // Fallback for desktop or unsupported browsers
-            openInstagramApp()
-          }
-        }
-      }, 'image/png', 0.95)
-      
-    } catch (error) {
-      console.error('Error sharing to Instagram:', error)
-      toast({
-        title: "Error",
-        description: "Failed to share to Instagram. Opening Instagram app instead.",
-        variant: "destructive",
-      })
-      openInstagramApp()
-    } finally {
-      setIsGenerating(false)
-    }
-  }
-
-  const openInstagramApp = () => {
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    const isAndroid = /Android/i.test(navigator.userAgent)
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-    
-    if (isAndroid) {
-      // Android: Use Intent URL to open Instagram app
-      const intentUrl = 'intent://instagram.com/#Intent;package=com.instagram.android;scheme=https;end'
-      window.location.href = intentUrl
-    } else if (isIOS) {
-      // iOS: Use custom URL scheme
-      const instagramUrl = 'instagram://story-camera'
-      const fallbackUrl = 'https://instagram.com'
-      
-      // Create hidden link to trigger app opening
-      const link = document.createElement('a')
-      link.href = instagramUrl
-      link.style.display = 'none'
-      document.body.appendChild(link)
-      
-      // Try to open Instagram app
-      link.click()
-      document.body.removeChild(link)
-      
-      // Fallback after delay if app doesn't open
-      setTimeout(() => {
-        if (document.visibilityState === 'visible') {
-          window.open(fallbackUrl, '_blank')
-        }
-      }, 1500)
-    } else {
-      // Desktop: Open Instagram web
-      window.open('https://instagram.com', '_blank')
-    }
-  }
 
   const handleCopyLink = () => {
     const shareUrl = `https://roastmygram.fun/roast/${data.profile.username}`
@@ -202,7 +201,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               <div className="text-center space-y-4">
                 <h2 className="text-2xl font-black text-white">Share Your Roast</h2>
                 <p className="text-sm" style={{ color: '#cbd5e1' }}>
-                  Download as PNG or share directly to Instagram Stories
+                  Download as PNG and share on Instagram Stories
                 </p>
               </div>
 
@@ -337,33 +336,12 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               {/* Action Buttons */}
               <div className="space-y-3">
                 <Button
-                  onClick={handleShareInstagram}
+                  onClick={handleDownloadPNG}
                   disabled={isGenerating}
                   className="w-full font-bold py-3 shadow-lg transition-all duration-300 disabled:opacity-50"
                   style={{
                     background: 'linear-gradient(to right, #ec4899, #9333ea, #2563eb)',
                     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-                  }}
-                  aria-label="Share to Instagram"
-                >
-                  {isGenerating ? (
-                    <div className="w-4 h-4 border-2 rounded-full animate-spin mr-2" style={{ borderColor: 'rgba(255, 255, 255, 0.3)', borderTopColor: '#ffffff' }}></div>
-                  ) : (
-                    <Instagram className="w-4 h-4 mr-2" />
-                  )}
-                                     {isGenerating ? 'Preparing...' : '📱 Open Instagram'}
-                </Button>
-                
-                <div className="grid grid-cols-2 gap-2">
-                                  <Button
-                  onClick={handleDownloadPNG}
-                  disabled={isGenerating}
-                  variant="outline"
-                  className="text-white disabled:opacity-50"
-                  style={{
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(4px)'
                   }}
                   aria-label="Download as PNG"
                 >
@@ -372,8 +350,10 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                   ) : (
                     <Download className="w-4 h-4 mr-2" />
                   )}
-                  {isGenerating ? 'Creating PNG...' : 'Download PNG'}
+                  {isGenerating ? 'Creating PNG...' : '📱 Download PNG for Stories'}
                 </Button>
+                
+                <div className="grid grid-cols-2 gap-2">
                   <Button
                     onClick={handleCopyLink}
                     variant="outline"
@@ -388,6 +368,20 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
                     <Copy className="w-4 h-4 mr-2" />
                     Copy Link
                   </Button>
+                  <Button
+                    onClick={() => window.open('https://instagram.com', '_blank')}
+                    variant="outline"
+                    className="text-white"
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.3)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(4px)'
+                    }}
+                    aria-label="Open Instagram"
+                  >
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Open Instagram
+                  </Button>
                 </div>
               </div>
 
@@ -395,9 +389,7 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               <div className="text-center">
                 <p className="text-xs" style={{ color: '#94a3b8' }}>
                   💡 Tip: Download the PNG and add it to your Instagram Story for the best experience!
-                  {typeof window !== 'undefined' && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && (
-                    <span className="block mt-1">📱 On mobile? Use the Instagram button for direct sharing!</span>
-                  )}
+                  <span className="block mt-1">📱 Perfect for Instagram Stories - just download and share!</span>
                 </p>
               </div>
             </div>

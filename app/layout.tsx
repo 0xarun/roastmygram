@@ -83,6 +83,7 @@ export default function RootLayout({
         
         {/* Preload critical assets */}
         <link rel="preload" href="/roastmygram-logo.jpeg" as="image" />
+        <link rel="preload" href="/heroimage.png" as="image" />
         <link rel="preload" href="/landing-profile.png" as="image" />
         
         {/* Structured data for better SEO */}

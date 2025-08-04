@@ -172,6 +172,24 @@ export default function LandingPage() {
                     <span className="ml-1 md:ml-2 text-base md:text-lg lg:text-xl">{liveActivities[currentActivity].emoji}</span>
                   </div>
                 </div>
+
+                {/* Direct Ad Link */}
+                <div className="text-center">
+                  <a 
+                    href="https://www.profitableratecpm.com/yujq2nyh?key=a3aa0716ee08aaed2c607a78145187c0" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block text-sm md:text-base px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 hover:scale-105 font-medium"
+                    style={{ 
+                      background: 'linear-gradient(to right, #10b981, #059669)',
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
+                  >
+                    🎯 Discover Amazing Deals Here
+                  </a>
+                </div>
               </div>
 
               {/* Hero Image */}
@@ -367,6 +385,13 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Banner Ad */}
+        <div className="text-center py-8">
+          <div className="flex justify-center">
+            <div id="banner-ad-container"></div>
+          </div>
+        </div>
 
         {/* Minimal Footer */}
         <footer className="container mx-auto px-4 py-8 text-center">

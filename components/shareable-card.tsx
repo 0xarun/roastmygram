@@ -423,11 +423,21 @@ export function ShareableCard({ data, onClose }: ShareableCardProps) {
               </div>
 
               {/* Instructions */}
-              <div className="text-center">
+              <div className="text-center space-y-3">
                 <p className="text-xs" style={{ color: '#94a3b8' }}>
                   💡 Tip: Download the PNG and add it to your Instagram Story for the best experience!
                   <span className="block mt-1">📱 Perfect for Instagram Stories - just download and share!</span>
                 </p>
+                
+                {/* Screenshot Fallback */}
+                <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-3">
+                  <p className="text-xs font-medium" style={{ color: '#fbbf24' }}>
+                    📸 <strong>Download not working?</strong> Take a screenshot instead!
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: '#94a3b8' }}>
+                    Share your roast and tag us <span className="font-bold text-cyan-400">@roastmygram.fun</span> for a chance to be featured! 🔥
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>

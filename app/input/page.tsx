@@ -20,7 +20,6 @@ export default function InputPage() {
     if (!username.trim()) return
 
     setIsLoading(true)
-
     try {
       // Call the real API
       const cleanUsername = username.replace("@", "").trim()

@@ -119,6 +119,31 @@ export default function RootLayout({
           data-website-id="04fa11fb-1e57-48ec-9168-ed21f63eed9e"
           strategy="lazyOnload"
         />
+        {/* Popunder Ad Script */}
+        <Script
+          src="//pl27343928.profitableratecpm.com/1a/c7/6a/1ac76a1d2fd79cd8b3f0972c740b5c5d.js"
+          strategy="lazyOnload"
+        />
+        {/* Banner Ad Script */}
+        <Script
+          id="banner-ad-script"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              atOptions = {
+                'key' : '2d5b700ab2b23bc11aeb447075d8e8ca',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            `
+          }}
+        />
+        <Script
+          src="//www.highperformanceformat.com/2d5b700ab2b23bc11aeb447075d8e8ca/invoke.js"
+          strategy="lazyOnload"
+        />
         <Toaster />
       </body>
     </html>

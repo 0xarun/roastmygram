@@ -1,0 +1,27 @@
+{
+  "name": "RoastMyGram - Get Your Instagram Roasted by AI",
+  "short_name": "RoastMyGram",
+  "description": "Enter your Instagram username and get a hilarious, personalized roast of your profile. Gen-Z approved sarcasm!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#581c87",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/roastmygram-logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/roastmygram-logo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "social", "fun"],
+  "lang": "en",
+  "dir": "ltr"
+} 

@@ -92,9 +92,11 @@ export default function LandingPage() {
         <nav className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-xl flex items-center justify-center rotate-12">
-                <Flame className="w-6 h-6 text-white" />
-              </div>
+              <img 
+                src="/roastmygram-logo.jpeg" 
+                alt="RoastMyGram Logo" 
+                className="w-12 h-12 rounded-xl shadow-lg"
+              />
               <span className="text-white font-black text-2xl">roastmygram.fun</span>
             </div>
             <div className="flex items-center space-x-4">
@@ -107,71 +109,112 @@ export default function LandingPage() {
 
         {/* Hero Section - Social Media Style */}
         <section className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            {/* Viral Badge */}
-            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500/20 to-pink-600/20 rounded-full px-6 py-3 border border-red-400/30">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-red-400 font-bold">TRENDING #1 ON SOCIAL</span>
-            </div>
+          <div className="max-w-6xl mx-auto">
+            {/* Hero with Cover Image */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Text Content */}
+              <div className="text-center lg:text-left space-y-8">
+                {/* Viral Badge */}
+                <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500/20 to-pink-600/20 rounded-full px-4 py-2 md:px-6 md:py-3 border border-red-400/30">
+                  <div className="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-red-400 font-bold text-sm md:text-base">ROASTING #1 ON SOCIAL</span>
+                </div>
 
-            {/* Main Title */}
-            <div className="space-y-6">
-              <h1 className="text-6xl md:text-8xl font-black text-white leading-none tracking-tight">
-                GET
-                <br />
-                <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse font-extrabold">
-                  ROASTED
-                </span>
-                <br />
-                <span className="font-black">BY AI</span> 🔥
-              </h1>
+                {/* Main Title */}
+                <div className="space-y-4 md:space-y-6">
+                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-none tracking-tight">
+                    GET
+                    <br />
+                    <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse font-extrabold">
+                      ROASTED
+                    </span>
+                    <br />
+                    <span className="font-black">FOR FUN</span> 🔥
+                  </h1>
 
-              <p className="text-2xl md:text-3xl text-slate-300 font-bold">
-                Your Instagram just called.
-                <br />
-                <span className="text-cyan-400">It wants to be roasted.</span>
-              </p>
-            </div>
+                  <p className="text-lg md:text-xl lg:text-2xl text-slate-300 font-bold">
+                    Your Instagram just called.
+                    <br />
+                    <span className="text-cyan-400">It wants to be roasted.</span>
+                  </p>
+                  
+                  {/* Disclaimer */}
+                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 md:p-4">
+                    <p className="text-yellow-400 text-sm md:text-base font-medium">
+                      ⚠️ All data is fake & generated for entertainment. Pure sarcasm, no AI involved! 😂
+                    </p>
+                  </div>
+                </div>
 
-            {/* CTA Button */}
-            <div className="mb-12">
-              <Link href="/input">
-                <Button
-                  size="lg"
-                  className="px-16 py-8 text-2xl font-black bg-gradient-to-r from-red-500 via-pink-600 to-purple-600 hover:from-red-400 hover:via-pink-500 hover:to-purple-500 border-0 rounded-3xl shadow-2xl hover:shadow-red-500/50 transition-all duration-300 transform hover:scale-110 animate-pulse"
-                >
-                  🚀 ROAST ME NOW
-                  <ArrowRight className="ml-3 w-8 h-8" />
-                </Button>
-              </Link>
-            </div>
+                {/* CTA Button */}
+                <div className="mb-6 md:mb-8">
+                  <Link href="/input">
+                    <Button
+                      size="lg"
+                      className="w-full md:w-auto px-8 md:px-12 py-4 md:py-6 text-lg md:text-xl font-black bg-gradient-to-r from-red-500 via-pink-600 to-purple-600 hover:from-red-400 hover:via-pink-500 hover:to-purple-500 border-0 rounded-2xl md:rounded-3xl shadow-2xl hover:shadow-red-500/50 transition-all duration-300 transform hover:scale-105 animate-pulse"
+                    >
+                      🚀 ROAST ME NOW
+                      <ArrowRight className="ml-2 md:ml-3 w-5 h-5 md:w-6 md:h-6" />
+                    </Button>
+                  </Link>
+                </div>
 
-            {/* Live Activity Feed */}
-            <div className="backdrop-blur-xl bg-white/5 rounded-2xl p-6 border border-white/10 max-w-md mx-auto">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-bold text-sm">LIVE ACTIVITY</span>
+                {/* Live Activity Feed */}
+                <div className="backdrop-blur-xl bg-white/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/10 max-w-md mx-auto lg:mx-0">
+                  <div className="flex items-center space-x-2 mb-3 md:mb-4">
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 font-bold text-xs md:text-sm">LIVE ACTIVITY</span>
+                  </div>
+                  <div className="text-white text-sm md:text-base">
+                    <span className="text-cyan-400 font-bold">{liveActivities[currentActivity].user}</span>
+                    <span className="mx-1 md:mx-2">{liveActivities[currentActivity].action}</span>
+                    <span className="text-slate-400 text-xs md:text-sm">{liveActivities[currentActivity].time}</span>
+                    <span className="ml-1 md:ml-2 text-lg md:text-xl">{liveActivities[currentActivity].emoji}</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-white">
-                <span className="text-cyan-400 font-bold">{liveActivities[currentActivity].user}</span>
-                <span className="mx-2">{liveActivities[currentActivity].action}</span>
-                <span className="text-slate-400 text-sm">{liveActivities[currentActivity].time}</span>
-                <span className="ml-2 text-xl">{liveActivities[currentActivity].emoji}</span>
+
+              {/* Landing Profile Image */}
+              <div className="relative flex justify-center">
+                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl transform rotate-2 md:rotate-3 hover:rotate-0 transition-transform duration-500 max-w-xs md:max-w-sm">
+                  <img 
+                    src="/landing-profile.png" 
+                    alt="RoastMyGram Profile - Get Your Instagram Roasted by AI" 
+                    className="w-full h-auto max-h-[400px] md:max-h-[500px] object-contain"
+                  />
+                  {/* Overlay with logo */}
+                  <div className="absolute top-2 md:top-4 left-2 md:left-4">
+                    <img 
+                      src="/roastmygram-logo.jpeg" 
+                      alt="RoastMyGram Logo" 
+                      className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl shadow-lg"
+                    />
+                  </div>
+                  {/* Floating elements on profile image */}
+                  <div className="absolute top-1/4 right-2 md:right-4 text-2xl md:text-3xl animate-bounce">💀</div>
+                  <div className="absolute bottom-1/4 left-2 md:left-4 text-xl md:text-2xl animate-pulse">🔥</div>
+                  <div className="absolute bottom-1/3 right-1/4 text-lg md:text-xl animate-bounce delay-1000">😭</div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Viral Moments Feed */}
-        <section className="container mx-auto px-4 py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+        <section className="container mx-auto px-4 py-12 md:py-16">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4">
               <span className="text-pink-400">VIRAL</span> ROASTS 🔥
             </h2>
-            <p className="text-xl text-slate-300">These roasts broke the internet (and some egos)</p>
+            <p className="text-lg md:text-xl text-slate-300 mb-4">These roasts broke the internet (and some egos)</p>
+            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 max-w-md mx-auto">
+              <p className="text-yellow-400 text-sm font-medium">
+                🎭 All usernames & stats are fictional for maximum laughs!
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
             {viralMoments.map((moment, index) => (
               <ViralRoastCard key={index} {...moment} />
             ))}
@@ -255,14 +298,14 @@ export default function LandingPage() {
         </section>
 
         {/* Final CTA - TikTok Style */}
-        <section className="container mx-auto px-4 py-20">
+        <section className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/20 via-pink-600/20 to-purple-600/20 rounded-3xl p-12 border border-white/20 relative overflow-hidden">
+            <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/20 via-pink-600/20 to-purple-600/20 rounded-2xl md:rounded-3xl p-6 md:p-12 border border-white/20 relative overflow-hidden">
               {/* Animated elements */}
-              <div className="absolute top-4 right-4 text-2xl animate-spin">🔥</div>
-              <div className="absolute bottom-4 left-4 text-2xl animate-bounce">💀</div>
+              <div className="absolute top-2 md:top-4 right-2 md:right-4 text-xl md:text-2xl animate-spin">🔥</div>
+              <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 text-xl md:text-2xl animate-bounce">💀</div>
 
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6">
                 YOUR TURN TO
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500">
@@ -270,23 +313,28 @@ export default function LandingPage() {
                 </span>
               </h2>
 
-              <p className="text-xl text-slate-300 mb-8">
+              <p className="text-lg md:text-xl text-slate-300 mb-6 md:mb-8">
                 Join the chaos. Get your vibe checked.
                 <br />
-                <span className="text-pink-400 font-bold">It's free. It's brutal. It's accurate.</span>
+                <span className="text-pink-400 font-bold">It's free. It's brutal. It's fun!</span>
               </p>
 
               <Link href="/input">
                 <Button
                   size="lg"
-                  className="px-12 py-6 text-xl font-black bg-gradient-to-r from-yellow-400 via-red-500 to-pink-600 hover:from-yellow-300 hover:via-red-400 hover:to-pink-500 text-black border-0 rounded-2xl shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:scale-105"
+                  className="w-full md:w-auto px-8 md:px-12 py-4 md:py-6 text-lg md:text-xl font-black bg-gradient-to-r from-yellow-400 via-red-500 to-pink-600 hover:from-yellow-300 hover:via-red-400 hover:to-pink-500 text-black border-0 rounded-xl md:rounded-2xl shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:scale-105"
                 >
                   🔥 I'M READY FOR THE SMOKE
                 </Button>
               </Link>
 
-              <div className="mt-6 text-slate-400 text-sm">
-                ⚠️ Side effects may include: uncontrollable laughter, existential crisis, and viral fame
+              <div className="mt-4 md:mt-6 text-slate-400 text-xs md:text-sm space-y-2">
+                <div>⚠️ Side effects may include: uncontrollable laughter, existential crisis, and viral fame</div>
+                <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2">
+                  <p className="text-yellow-400 text-xs font-medium">
+                    🎭 Remember: All roasts are fictional & for entertainment only!
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -295,9 +343,11 @@ export default function LandingPage() {
         {/* Minimal Footer */}
         <footer className="container mx-auto px-4 py-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-6 h-6 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center">
-              <Flame className="w-4 h-4 text-white" />
-            </div>
+            <img 
+              src="/roastmygram-logo.jpeg" 
+              alt="RoastMyGram Logo" 
+              className="w-8 h-8 rounded-lg shadow-md"
+            />
             <span className="text-white font-bold">roastmygram.fun</span>
           </div>
           <p className="text-slate-400 text-sm">Made with 💀 and zero chill. Your Instagram will never recover.</p>
@@ -323,28 +373,30 @@ function ViralRoastCard({
 }) {
   return (
     <Card className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-500 group hover:scale-105">
-      <CardContent className="p-6">
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-600 rounded-full flex items-center justify-center">
-            <Crown className="w-4 h-4 text-white" />
-          </div>
-          <span className="text-cyan-400 font-bold text-sm">{user}</span>
+      <CardContent className="p-4 md:p-6">
+        <div className="flex items-center space-x-2 mb-3 md:mb-4">
+          <img 
+            src="/roastmygram-logo.jpeg" 
+            alt="RoastMyGram Logo" 
+            className="w-6 h-6 md:w-8 md:h-8 rounded-full shadow-md"
+          />
+          <span className="text-cyan-400 font-bold text-xs md:text-sm">{user}</span>
           <Badge className="bg-red-500/20 text-red-400 text-xs">VIRAL</Badge>
         </div>
 
-        <p className="text-white mb-4 leading-relaxed font-medium">"{roast}"</p>
+        <p className="text-white mb-3 md:mb-4 leading-relaxed font-medium text-sm md:text-base">"{roast}"</p>
 
-        <div className="flex items-center justify-between text-slate-400 text-sm">
+        <div className="flex items-center justify-between text-slate-400 text-xs md:text-sm">
           <div className="flex items-center space-x-1">
-            <Heart className="w-4 h-4 text-red-500" />
+            <Heart className="w-3 h-3 md:w-4 md:h-4 text-red-500" />
             <span>{likes}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="w-3 h-3 md:w-4 md:h-4" />
             <span>{comments}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Share className="w-4 h-4" />
+            <Share className="w-3 h-3 md:w-4 md:h-4" />
             <span>{shares}</span>
           </div>
         </div>
@@ -398,7 +450,11 @@ function ScatteredTestimonial({
     >
       <CardContent className={sizeClasses[size]}>
         <div className="flex items-center space-x-2 mb-3">
-          <div className="w-6 h-6 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full"></div>
+          <img 
+            src="/roastmygram-logo.jpeg" 
+            alt="RoastMyGram Logo" 
+            className="w-6 h-6 rounded-full shadow-sm"
+          />
           <span className="text-white font-bold text-sm">{username}</span>
           <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-xs">✓</div>
         </div>

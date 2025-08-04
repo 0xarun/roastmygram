@@ -390,11 +390,7 @@ export function RoastDashboard({ username }: RoastDashboardProps) {
 
         {/* Share Card Modal */}
         {showShareCard && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="max-w-md w-full">
-              <ShareableCard data={displayData} onClose={() => setShowShareCard(false)} />
-            </div>
-          </div>
+          <ShareableCard data={displayData} onClose={() => setShowShareCard(false)} />
         )}
       </div>
     </div>

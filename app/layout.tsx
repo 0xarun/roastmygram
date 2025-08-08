@@ -86,6 +86,20 @@ export default function RootLayout({
         <link rel="preload" href="/heroimage.png" as="image" />
         <link rel="preload" href="/landing-profile.png" as="image" />
         
+        {/* Google tag (gtag.js) for ilaiyanithi to test it out */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17450484592"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17450484592');
+          `}
+        </Script>
+        
         {/* Structured data for better SEO */}
         <script
           type="application/ld+json"
